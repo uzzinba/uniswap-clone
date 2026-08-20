@@ -70,7 +70,7 @@
     }
 
     /* ============================================
-       NAVBAR FULL-WIDTH - CON SEARCH BAR CENTRATA
+       NAVBAR FULL-WIDTH (SENZA SEARCH BAR)
        ============================================ */
     .navbar {
       display: flex;
@@ -144,48 +144,6 @@
       font-weight: var(--font-weight-medium);
     }
     
-    /* ===== CENTRO: Search bar centrata ===== */
-    .navbar-center {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex: 1;
-      min-width: 0;
-    }
-    
-    .search-bar {
-      display: flex;
-      align-items: center;
-      gap: var(--space-8);
-      width: 320px;
-      height: 40px;
-      background: var(--surface2);
-      border-radius: var(--radius-12);
-      padding: var(--space-8) var(--space-16);
-      border: 1px solid transparent;
-      transition: border-color 0.15s, background 0.15s;
-      cursor: pointer;
-      font-size: var(--font-body-3);
-      color: var(--neutral2);
-    }
-    .search-bar:hover {
-      background: var(--surface2-hovered);
-      border-color: var(--surface3);
-    }
-    .search-bar i {
-      color: var(--neutral3);
-      font-size: 16px;
-    }
-    .search-bar .shortcut {
-      color: var(--neutral3);
-      font-size: 12px;
-      margin-left: auto;
-      background: var(--surface1);
-      padding: 0 6px;
-      border-radius: var(--radius-4);
-      border: 1px solid var(--surface3);
-    }
-    
     /* ===== DESTRA ===== */
     .navbar-right {
       display: flex;
@@ -247,16 +205,16 @@
     }
 
     /* ============================================
-       SWAP CARD - VERSIONE SCREENSHOT 1
+       SWAP CARD - INGRANDITA (max-width: 480px)
        ============================================ */
     .swap-card {
       background: transparent;
       border: none;
       box-shadow: none;
       border-radius: 0;
-      padding: 0;
+      padding: 24px; /* padding aggiunto */
       width: 100%;
-      max-width: 384px;
+      max-width: 480px; /* da 384px a 480px */
     }
     
     .swap-title {
@@ -391,15 +349,15 @@
     }
 
     /* ============================================
-       TOKEN INPUT
+       TOKEN INPUT - INGRANDITO
        ============================================ */
     .token-input {
       background: var(--surface2);
       border-radius: var(--radius-20);
-      padding: var(--space-12) var(--space-16);
+      padding: 16px 20px; /* aumentato da 12px 16px */
       margin-bottom: var(--space-4);
       border: 1px solid transparent;
-      min-height: 60px;
+      min-height: 72px; /* aumentato da 60px */
       transition: border-color 0.15s;
     }
     .token-input:hover {
@@ -420,7 +378,7 @@
     }
     
     .token-input .amount {
-      font-size: 36px;
+      font-size: 42px; /* aumentato da 36px */
       font-weight: 500;
       background: transparent;
       border: none;
@@ -439,11 +397,11 @@
       align-items: center;
       gap: var(--space-8);
       background: var(--surface1);
-      padding: var(--space-4) var(--space-12) var(--space-4) var(--space-8);
+      padding: 6px 16px 6px 10px; /* aumentato */
       border-radius: var(--radius-full);
       cursor: pointer;
       border: 1px solid var(--surface3-solid);
-      height: 36px;
+      height: 44px; /* aumentato da 36px */
       transition: border-color 0.15s, box-shadow 0.15s;
       box-shadow: 0px 0px 10px rgba(19,19,19,0.04);
     }
@@ -451,13 +409,13 @@
       border-color: var(--neutral3);
     }
     .token-select img {
-      width: 22px;
-      height: 22px;
+      width: 24px; /* aumentato da 22px */
+      height: 24px;
       border-radius: 50%;
     }
     .token-select span {
       font-weight: var(--font-weight-medium);
-      font-size: 15px;
+      font-size: 18px; /* aumentato da 15px */
       color: var(--neutral1);
     }
     .token-select i {
@@ -507,16 +465,16 @@
     }
 
     /* ============================================
-       PULSANTE CONNECT (rosa chiaro, testo rosa)
+       PULSANTE CONNECT - INGRANDITO
        ============================================ */
     .swap-btn {
       width: 100%;
-      padding: var(--space-16) var(--space-20);
+      padding: 18px 24px; /* aumentato da 16px 20px */
       border-radius: var(--radius-20);
       background: var(--accent2);
       color: var(--accent1);
       font-weight: var(--font-weight-medium);
-      font-size: 18px;
+      font-size: 20px; /* aumentato da 18px */
       border: none;
       margin-top: var(--space-12);
       cursor: pointer;
@@ -755,7 +713,7 @@
 <body>
 
   <!-- ============================================
-       NAVBAR FULL-WIDTH CON SEARCH BAR CENTRATA
+       NAVBAR FULL-WIDTH (SENZA SEARCH BAR)
        ============================================ -->
   <nav class="navbar">
     <!-- SINISTRA -->
@@ -782,15 +740,6 @@
         <span>Launches <span class="badge-beta">Beta</span></span>
         <span>Pool</span>
         <span>Portfolio</span>
-      </div>
-    </div>
-    
-    <!-- CENTRO: Search bar centrata -->
-    <div class="navbar-center">
-      <div class="search-bar">
-        <i class="fas fa-search"></i>
-        <span>Search tokens, pools, and wallets</span>
-        <span class="shortcut">/</span>
       </div>
     </div>
     
